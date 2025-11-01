@@ -23,7 +23,7 @@ Antes de comenzar, asegurate de tener instalado:
     ```
 
 2. **Levantar los servicios**
-    ```
+    ```bash
     docker-compose up -d 
     ```
     Esto iniciará:
@@ -41,9 +41,29 @@ Antes de comenzar, asegurate de tener instalado:
 3. **Ejecutar migraciones de la base de datos**
 
     Una vez que todos los contenedores estén en marcha, corré las migraciones:
-    ```
+    ```bash
     docker exec -it backend_paintbloatware bun migrate
     ```
+
+4. **Crear un admin**
+
+    Si queres tener acceso de admin, crea exactamente una cuenta de usuario y corre los siguente comandos:
+    ```bash
+    docker exec -it postgres_paintbloatware psql -U postgres -d paint_db
+    ```
+    Para entrar a la terminal de postgres.
+    ```bash
+    WITH inserted AS (
+        INSERT INTO admins (id, "userId")
+        SELECT gen_random_uuid(), u.id
+        FROM users u
+        WHERE (SELECT COUNT(*) FROM users) = 1
+        ON CONFLICT DO NOTHING
+        RETURNING *
+        )
+        SELECT COUNT(*) AS inserted_admins FROM inserted;
+    ```
+    Para inicia un usuario admin
 
 # 🔗 Accesos rápidos
 
