@@ -63,7 +63,7 @@ Antes de comenzar, asegurate de tener instalado:
         )
         SELECT COUNT(*) AS inserted_admins FROM inserted;
     ```
-    Para inicia un usuario admin
+    Para iniciar un usuario admin.
 
 # 🔗 Accesos rápidos
 
