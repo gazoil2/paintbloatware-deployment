@@ -47,23 +47,11 @@ Antes de comenzar, asegurate de tener instalado:
 
 4. **Crear un admin**
 
-    Si queres tener acceso de admin, crea exactamente una cuenta de usuario y corre los siguente comandos:
+    Si queres tener acceso crea al menos una cuenta y corre el siguiente comando:
     ```bash
-    docker exec -it postgres_paintbloatware psql -U postgres -d paint_db
+        bun admingenerate
     ```
-    Para entrar a la terminal de postgres.
-    ```bash
-    WITH inserted AS (
-        INSERT INTO admins (id, "userId")
-        SELECT gen_random_uuid(), u.id
-        FROM users u
-        WHERE (SELECT COUNT(*) FROM users) = 1
-        ON CONFLICT DO NOTHING
-        RETURNING *
-        )
-        SELECT COUNT(*) AS inserted_admins FROM inserted;
-    ```
-    Para iniciar un usuario admin.
+    
 
 # 🔗 Accesos rápidos
 
