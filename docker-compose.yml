@@ -54,6 +54,9 @@ services:
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       FRONTEND_PATH: ${FRONTEND_PATH}
+      MP_WEBHOOK_SECRET: ${MP_WEBHOOK_SECRET}
+      MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN}
+      NITRO_PLAN_ID: ${NITRO_PLAN_ID}
       PORT: 60014
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -91,6 +94,18 @@ services:
     depends_on:
       - backend
       - rust_backend
+    networks:
+      - paintbloatware_network
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared_tunnel
+    command: tunnel --config /etc/cloudflared/config.docker.yml run
+    volumes:
+      - C:/Users/${USER}/.cloudflared:/etc/cloudflared:ro
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
     networks:
       - paintbloatware_network
       
